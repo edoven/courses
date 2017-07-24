@@ -1,20 +1,21 @@
 from __future__ import division,print_function
 import math, os, json, sys, re
-import cPickle as pickle
+#import cPickle as pickle
+import pickle
 from glob import glob
 import numpy as np
 from matplotlib import pyplot as plt
 from operator import itemgetter, attrgetter, methodcaller
 from collections import OrderedDict
-import itertools
+#import itertools
 from itertools import chain
 
 import pandas as pd
-import PIL
+#import PIL
 from PIL import Image
 from numpy.random import random, permutation, randn, normal, uniform, choice
 from numpy import newaxis
-import scipy
+#import scipy
 from scipy import misc, ndimage
 from scipy.ndimage.interpolation import zoom
 from scipy.ndimage import imread
@@ -25,12 +26,12 @@ from sklearn.manifold import TSNE
 
 from IPython.lib.display import FileLink
 
-import theano
+#import theano
 from theano import shared, tensor as T
 from theano.tensor.nnet import conv2d, nnet
 from theano.tensor.signal import pool
 
-import keras
+#import keras
 from keras import backend as K
 from keras.utils.data_utils import get_file
 from keras.utils import np_utils
@@ -39,10 +40,12 @@ from keras.models import Sequential, Model
 from keras.layers import Input, Embedding, Reshape, merge, LSTM, Bidirectional
 from keras.layers import TimeDistributed, Activation, SimpleRNN, GRU
 from keras.layers.core import Flatten, Dense, Dropout, Lambda
-from keras.regularizers import l2, activity_l2, l1, activity_l1
+#from keras.regularizers import l2, activity_l2, l1, activity_l1
+from keras.regularizers import l2, l1
 from keras.layers.normalization import BatchNormalization
 from keras.optimizers import SGD, RMSprop, Adam
-from keras.utils.layer_utils import layer_from_config
+#from keras.utils.layer_utils import layer_from_config
+from keras.layers import deserialize as layer_from_config
 from keras.metrics import categorical_crossentropy, categorical_accuracy
 from keras.layers.convolutional import *
 from keras.preprocessing import image, sequence
@@ -50,6 +53,7 @@ from keras.preprocessing.text import Tokenizer
 
 from vgg16 import *
 from vgg16bn import *
+
 np.set_printoptions(precision=4, linewidth=100)
 
 
@@ -61,11 +65,13 @@ def gray(img):
     else:
         return np.rollaxis(img, 0, 3).dot(to_bw)
 
+
 def to_plot(img):
     if K.image_dim_ordering() == 'tf':
         return np.rollaxis(img, 0, 1).astype(np.uint8)
     else:
         return np.rollaxis(img, 0, 3).astype(np.uint8)
+
 
 def plot(img):
     plt.imshow(to_plot(img))
@@ -73,8 +79,11 @@ def plot(img):
 
 def floor(x):
     return int(math.floor(x))
+
+
 def ceil(x):
     return int(math.ceil(x))
+
 
 def plots(ims, figsize=(12,6), rows=1, interp=False, titles=None):
     if type(ims[0]) is np.ndarray:
@@ -244,7 +253,8 @@ class MixIterator(object):
             self.N = sum([it.N for it in self.iters])
 
     def reset(self):
-        for it in self.iters: it.reset()
+        for it in self.iters: 
+            it.reset()
 
     def __iter__(self):
         return self
@@ -260,4 +270,3 @@ class MixIterator(object):
             n0 = np.concatenate([n[0] for n in nexts])
             n1 = np.concatenate([n[1] for n in nexts])
             return (n0, n1)
-
